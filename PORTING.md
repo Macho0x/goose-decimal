@@ -25,3 +25,5 @@ The source is rust_decimal 1.43. The checks in `tests/self_check.goose` are stri
 ## What is absent
 
 There is no serde, no `from_f64`, and no `ln`, `exp`, `sin`, or `sqrt`. A coefficient that does not fit in 96 bits returns false. rust_decimal's `+` panics on overflow. This package returns false there instead.
+
+A cast is checked, except the digit just produced by dividing by 10.

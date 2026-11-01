@@ -6,7 +6,7 @@
 
 <p align="center">
   A 96-bit decimal for <a href="https://github.com/aardappel/goose">Goose</a><br>
-  <strong>0.2</strong> · <a href="LICENSE">Apache-2.0</a>
+  <strong>0.2.1</strong> · <a href="LICENSE">Apache-2.0</a>
 </p>
 
 The same value [rust_decimal](https://github.com/paupino/rust-decimal) 1.43 stores: a 96-bit coefficient and a scale from 0 to 28. The number is the coefficient divided by 10 to that scale.

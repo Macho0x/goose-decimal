@@ -56,10 +56,10 @@ fn mag_sub(a: u32[3], b: u32[3]) -> u32[3] {
         let bv: u64 = b[i];
         let sub = bv + borrow;
         if av >= sub {
-            o[i] = (av - sub) as! u32;
+            o[i] = (av - sub) as u32;
             borrow = 0;
         } else {
-            o[i] = (av + 4294967296 - sub) as! u32;
+            o[i] = (av + 4294967296 - sub) as u32;
             borrow = 1;
         }
     }
@@ -74,10 +74,10 @@ fn sub4(a: u32[4], b: u32[4]) -> u32[4] {
         let bv: u64 = b[i];
         let sub = bv + borrow;
         if av >= sub {
-            o[i] = (av - sub) as! u32;
+            o[i] = (av - sub) as u32;
             borrow = 0;
         } else {
-            o[i] = (av + 4294967296 - sub) as! u32;
+            o[i] = (av + 4294967296 - sub) as u32;
             borrow = 1;
         }
     }
@@ -89,7 +89,7 @@ fn add_u32(a: u32[3], v: u32) -> u32[3], bool {
     var carry: u64 = v;
     for i in 0..3 {
         let s = (o[i]) + carry;
-        o[i] = (s & 0xffffffff) as! u32;
+        o[i] = (s & 0xffffffff) as u32;
         carry = s >> 32;
     }
     return o, carry == 0;
@@ -102,10 +102,10 @@ fn mul_u32(a: u32[3], m: u32) -> u32[3], u32 {
         let ai: u64 = a[i];
         let mm: u64 = m;
         let p = ai * mm + carry;
-        o[i] = (p & 0xffffffff) as! u32;
+        o[i] = (p & 0xffffffff) as u32;
         carry = p >> 32;
     }
-    return o, carry as! u32;
+    return o, carry as u32;
 }
 
 fn mul4_u32(a: u32[4], m: u32) -> u32[4], bool {
@@ -115,7 +115,7 @@ fn mul4_u32(a: u32[4], m: u32) -> u32[4], bool {
         let ai: u64 = a[i];
         let mm: u64 = m;
         let p = ai * mm + carry;
-        o[i] = (p & 0xffffffff) as! u32;
+        o[i] = (p & 0xffffffff) as u32;
         carry = p >> 32;
     }
     return o, carry == 0;
@@ -134,10 +134,10 @@ fn div10(a: u32[3]) -> u32[3], u32 {
         let k = 2 - i;
         let cur = (rem << 32) | (a[k]);
         let q = cur / ten;
-        o[k] = q as! u32;
+        o[k] = q as u32;
         rem = cur - q * ten;
     }
-    return o, rem as! u32;
+    return o, rem as u32;
 }
 
 fn div_u32(a: u32[3], m: u32) -> u32[3], u32 {
@@ -148,10 +148,10 @@ fn div_u32(a: u32[3], m: u32) -> u32[3], u32 {
         let k = 2 - i;
         let cur = (rem << 32) | (a[k]);
         let q = cur / div;
-        o[k] = q as! u32;
+        o[k] = q as u32;
         rem = cur - q * div;
     }
-    return o, rem as! u32;
+    return o, rem as u32;
 }
 
 fn shl1(r: u32[3], bit: u32) -> u32[3] {
@@ -172,7 +172,7 @@ fn divmod(n: u32[3], d: u32[3]) -> u32[3], u32[3] {
     for step in 0..96 {
         let from_top: i64 = 95 - step;
         let limb = from_top / 32;
-        let off = (from_top % 32) as! u32;
+        let off = (from_top % 32) as u32;
         let bit = (n[limb] >> off) & 1;
         r = shl1(r, bit);
         if mag_cmp(r, d) >= 0 {
@@ -215,9 +215,9 @@ fn find_scale(q: u32[3], scale: i64) -> i64 {
 fn quot_digit(rem: u32[4], d: u32[3]) -> u32 {
     var k: u32 = 0;
     for t in 1..10 {
-        let prod = mul3_to4(d, t as! u32);
+        let prod = mul3_to4(d, t as u32);
         if mag4_cmp(prod, rem) > 0 { break; }
-        k = t as! u32;
+        k = t as u32;
     }
     return k;
 }
@@ -384,7 +384,7 @@ fn add_aligned(a: Dec, b: Dec) -> Dec, bool {
         var carry: u64 = 0;
         for i in 0..3 {
             let s = (w1[i]) + (w2[i]) + carry;
-            o[i] = (s & 0xffffffff) as! u32;
+            o[i] = (s & 0xffffffff) as u32;
             carry = s >> 32;
         }
         if carry != 0 { return zero(), false; }
@@ -409,7 +409,7 @@ fn sub(a: Dec, b: Dec) -> Dec, bool {
 fn mul(a: Dec, b: Dec) -> Dec, bool {
     if mag_zero(a.w) || mag_zero(b.w) {
         var scale = a.scale + b.scale;
-        if scale > MAX_SCALE as! u32 { scale = MAX_SCALE as! u32; }
+        if scale > MAX_SCALE as u32 { scale = MAX_SCALE as u32; }
         return Dec { w: [0; 3], scale: scale, neg: false }, true;
     }
     var acc: u32[6] = [0; 6];
@@ -421,14 +421,14 @@ fn mul(a: Dec, b: Dec) -> Dec, bool {
             let bj: u64 = b.w[j];
             let ak: u64 = acc[k];
             let p = ai * bj + ak + carry;
-            acc[k] = (p & 0xffffffff) as! u32;
+            acc[k] = (p & 0xffffffff) as u32;
             carry = p >> 32;
         }
         let k = i + 3;
         let s = (acc[k]) + carry;
-        acc[k] = (s & 0xffffffff) as! u32;
+        acc[k] = (s & 0xffffffff) as u32;
         if (s >> 32) != 0 && k + 1 < 6 {
-            acc[k + 1] = acc[k + 1] + ((s >> 32) as! u32);
+            acc[k + 1] = acc[k + 1] + ((s >> 32) as u32);
         }
     }
     var scale: i64 = (a.scale) + (b.scale);
@@ -442,7 +442,7 @@ fn mul(a: Dec, b: Dec) -> Dec, bool {
             let k = 5 - i;
             let cur = (rem << 32) | (acc[k]);
             let q = cur / ten;
-            next[k] = q as! u32;
+            next[k] = q as u32;
             rem = cur - q * ten;
         }
         if rem > 5 || (rem == 5 && (sticky || (next[0] & 1) == 1)) {
@@ -456,7 +456,7 @@ fn mul(a: Dec, b: Dec) -> Dec, bool {
         acc = next;
         scale -= 1;
     }
-    return Dec { w: [acc[0], acc[1], acc[2]], scale: scale as! u32, neg: a.neg != b.neg }, true;
+    return Dec { w: [acc[0], acc[1], acc[2]], scale: scale as u32, neg: a.neg != b.neg }, true;
 }
 
 fn div(a: Dec, b: Dec) -> Dec, bool {
@@ -503,7 +503,7 @@ fn div(a: Dec, b: Dec) -> Dec, bool {
         scale = us;
     }
     if scale < 0 || scale > MAX_SCALE { return zero(), false; }
-    return Dec { w: q, scale: scale as! u32, neg: a.neg != b.neg }, true;
+    return Dec { w: q, scale: scale as u32, neg: a.neg != b.neg }, true;
 }
 
 fn parse(s: u8[:]) -> Dec, bool {
@@ -581,7 +581,7 @@ fn parse(s: u8[:]) -> Dec, bool {
         scale -= 1;
     }
     if mag_zero(mant) { neg = false; }
-    return Dec { w: mant, scale: scale as! u32, neg: neg }, true;
+    return Dec { w: mant, scale: scale as u32, neg: neg }, true;
 }
 
 fn ::main() {
